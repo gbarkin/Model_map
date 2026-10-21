@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title><%= ModelMap.config.title %> · Model map</title>
+  <link rel="stylesheet" href="<%= asset_file_path(file: "model_map.css") %>">
+  <script id="model-map-bootstrap" type="application/json"><%= raw json_escape(@bootstrap.to_json) %></script>
+</head>
+<body>
+  <div id="model-map-root"></div>
+  <script type="module" src="<%= asset_file_path(file: "model_map.js") %>"></script>
+</body>
+</html>
