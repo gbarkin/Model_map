@@ -4,6 +4,7 @@ class Case < ApplicationRecord
   has_many :vetting_checks, dependent: :destroy
   has_many :referrals, dependent: :destroy
   has_many :interviews, dependent: :destroy
+  has_many :appeals, dependent: :destroy
   has_many :notes, as: :notable, dependent: :destroy
   has_many :documents, as: :attachable, dependent: :destroy
   has_and_belongs_to_many :tags

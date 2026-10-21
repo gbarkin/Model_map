@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model map (dev)</title>
+  <!-- Dev only: reads a schema fixture from dev/schema.json. Run `npm run fixture` to refresh it. -->
+  <script id="model-map-bootstrap" type="application/json">
+    {"mode":"live","title":"Case management (sample)","writable":false,"pollInterval":0,
+     "endpoints":{"schema":"/dev/schema.json","fingerprint":"/dev/schema.json","store":"/dev/store.json"}}
+  </script>
+</head>
+<body>
+  <div id="model-map-root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

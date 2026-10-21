@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+# Builds the React app into dist/app (served by the engine) and
+# dist/standalone (inlined into offline HTML exports). Run before releasing.
+set -e
+cd "$(dirname "$0")/../frontend"
+[ -d node_modules ] || npm ci
+npm run build

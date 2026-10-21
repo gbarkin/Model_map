@@ -1,0 +1,219 @@
+{
+  "version": 1,
+  "positions": {
+    "Address": {
+      "x": 364,
+      "y": 416
+    },
+    "Person": {
+      "x": 44,
+      "y": 508
+    },
+    "Relationship": {
+      "x": 364,
+      "y": 714
+    },
+    "AsylumCase": {
+      "x": 1117,
+      "y": 608
+    },
+    "Case": {
+      "x": 797,
+      "y": 398
+    },
+    "Interview": {
+      "x": 1117,
+      "y": 217
+    },
+    "RefugeeCase": {
+      "x": 1117,
+      "y": 473
+    },
+    "Tag": {
+      "x": 1117,
+      "y": 743
+    },
+    "BiometricCheck": {
+      "x": 1863,
+      "y": 982
+    },
+    "NameCheck": {
+      "x": 1863,
+      "y": 828
+    },
+    "VettingCheck": {
+      "x": 1543,
+      "y": 799
+    },
+    "Document": {
+      "x": 2299,
+      "y": 754
+    },
+    "Note": {
+      "x": 2299,
+      "y": 479
+    },
+    "Referral": {
+      "x": 1543,
+      "y": 198
+    },
+    "ReferralEvent": {
+      "x": 1863,
+      "y": 170
+    },
+    "User": {
+      "x": 364,
+      "y": 68
+    },
+    "Appeal": {
+      "x": 1141,
+      "y": 998
+    }
+  },
+  "models": {
+    "Person": {
+      "description": "Someone who files or is named in a filing. Recorded once, however many cases they have."
+    },
+    "Address": {
+      "description": "A place a person lives or receives mail."
+    },
+    "Relationship": {
+      "description": "A family link between two people, such as spouse or child."
+    },
+    "Case": {
+      "description": "One filing by one person, from intake through decision."
+    },
+    "AsylumCase": {
+      "description": "A case filed by someone already in the country."
+    },
+    "RefugeeCase": {
+      "description": "A case processed for someone outside the country."
+    },
+    "Interview": {
+      "description": "A scheduled conversation between an officer and the person on a case."
+    },
+    "Appeal": {
+      "description": "A request to review a decision on a case."
+    },
+    "Tag": {
+      "description": "A label officers attach to cases to find them later."
+    },
+    "VettingCheck": {
+      "description": "One security or identity check run for a case."
+    },
+    "BiometricCheck": {
+      "description": "A check based on fingerprints or photos."
+    },
+    "NameCheck": {
+      "description": "A check of names and dates of birth against watch lists."
+    },
+    "Referral": {
+      "description": "A request to send a case to another office for review."
+    },
+    "ReferralEvent": {
+      "description": "Something that happened to a referral, in order."
+    },
+    "Note": {
+      "description": "A free-text note on a person or case."
+    },
+    "Document": {
+      "description": "A file attached to a person, case, or check."
+    },
+    "User": {
+      "description": "A staff member who works cases."
+    }
+  },
+  "groups": {
+  },
+  "tours": [
+    {
+      "id": "uc3gf57d",
+      "name": "How a case moves through the system",
+      "steps": [
+        {
+          "id": "n4lnncpr",
+          "title": "Overview",
+          "note": "Each shaded zone is one part of the system. Lines show how records connect, and the ends of each line show one or many.",
+          "focus": null,
+          "expanded": [
+
+          ],
+          "plain": true,
+          "center": {
+            "x": 1296,
+            "y": 565,
+            "zoom": 0.414
+          }
+        },
+        {
+          "id": "5x8suyl7",
+          "title": "Person",
+          "note": "A person is recorded once, with addresses and family relationships, however many filings they have.",
+          "focus": "Person",
+          "expanded": [
+            "Person"
+          ],
+          "plain": true,
+          "center": {
+            "x": 168,
+            "y": 603,
+            "zoom": 1
+          }
+        },
+        {
+          "id": "lth9ug29",
+          "title": "Case",
+          "note": "Every filing is a case. Asylum and refugee cases share one table and differ only by type.",
+          "focus": "Case",
+          "expanded": [
+            "Person",
+            "Case"
+          ],
+          "plain": true,
+          "center": {
+            "x": 921,
+            "y": 493,
+            "zoom": 1
+          }
+        },
+        {
+          "id": "d6pws3d2",
+          "title": "Vetting check",
+          "note": "Each case runs several checks. Biometric and name checks are kinds of vetting check.",
+          "focus": "VettingCheck",
+          "expanded": [
+            "Person",
+            "Case",
+            "VettingCheck"
+          ],
+          "plain": true,
+          "center": {
+            "x": 1667,
+            "y": 871,
+            "zoom": 1
+          }
+        },
+        {
+          "id": "bmq3uynl",
+          "title": "Referral",
+          "note": "When a case needs another office, a referral records who sent it, why, and every event since.",
+          "focus": "Referral",
+          "expanded": [
+            "Person",
+            "Case",
+            "VettingCheck",
+            "Referral"
+          ],
+          "plain": true,
+          "center": {
+            "x": 1667,
+            "y": 270,
+            "zoom": 1
+          }
+        }
+      ]
+    }
+  ],
+  "settings": {
+  }
+}

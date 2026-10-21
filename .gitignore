@@ -2,7 +2,6 @@
 /test/dummy/log/*.log
 /test/dummy/tmp/
 /test/dummy/db/*.sqlite3
-/test/dummy/config/model_map.json
 /pkg/
 *.gem
 .DS_Store

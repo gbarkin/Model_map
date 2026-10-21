@@ -1,5 +1,6 @@
 require "digest"
 require "json"
+require "set"
 
 module ModelMap
   # Reads the structure of every ActiveRecord model through reflection.
@@ -408,9 +409,17 @@ module ModelMap
     def group_colors(payload)
       colors = @config.group_colors.dup
       palette = Configuration::DEFAULT_PALETTE
-      # Hash the name so a group keeps its color when other groups come and go.
-      payload.map { |m| m[:group] }.compact.uniq.each do |g|
-        colors[g] ||= palette[Digest::MD5.hexdigest(g).to_i(16) % palette.size]
+      # Each group prefers the palette slot its name hashes to, so it usually
+      # keeps its color as other groups come and go; collisions take the next
+      # free slot until the palette runs out.
+      taken = colors.values.to_set
+      payload.map { |m| m[:group] }.compact.uniq.sort.each do |g|
+        next if colors[g]
+
+        start = Digest::MD5.hexdigest(g).to_i(16) % palette.size
+        slot = (0...palette.size).map { |i| palette[(start + i) % palette.size] }.find { |c| !taken.include?(c) }
+        colors[g] = slot || palette[start]
+        taken << colors[g]
       end
       colors
     end

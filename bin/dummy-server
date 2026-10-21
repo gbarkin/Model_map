@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+# Boots the sample app in development mode on http://localhost:3000/model_map
+# Usage: bin/dummy-server [port]
+ENV["RAILS_ENV"] ||= "development"
+Dir.chdir(File.expand_path("../test/dummy", __dir__))
+require_relative "../test/dummy/config/environment"
+
+db = Rails.root.join("db/development.sqlite3")
+unless File.exist?(db)
+  ActiveRecord::Schema.verbose = false
+  load Rails.root.join("db/schema.rb")
+end
+
+port = (ARGV[0] || 3000).to_i
+begin
+  require "puma"
+  require "rack/handler/puma"
+  Rack::Handler::Puma.run(Rails.application, Port: port, Host: "127.0.0.1")
+rescue LoadError
+  require "webrick"
+  require "rack/handler/webrick"
+  Rack::Handler::WEBrick.run(Rails.application, Port: port, Host: "127.0.0.1")
+end

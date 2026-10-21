@@ -13,7 +13,6 @@ Gem::Specification.new do |spec|
     live updates as models change, and standalone HTML export.
   DESC
   spec.license  = "MIT"
-  spec.homepage = "https://github.com/gbarkin/model_map"
   spec.required_ruby_version = ">= 2.7"
 
   spec.files = Dir[

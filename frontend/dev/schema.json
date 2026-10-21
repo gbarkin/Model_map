@@ -1,0 +1,2415 @@
+{
+  "app": "Case management (sample)",
+  "rails_version": "6.1.7.3",
+  "groups": {
+    "Cases": "#B5832A",
+    "People": "#4F6D7A",
+    "Records": "#7A4E7E",
+    "Referrals": "#A8473A",
+    "Staff": "#2F7F7A",
+    "Vetting": "#3A5A8C"
+  },
+  "models": [
+    {
+      "name": "Address",
+      "table_name": "addresses",
+      "namespace": null,
+      "group": "People",
+      "file": "app/models/address.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "person_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "person",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "kind",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "default": "0",
+          "primary_key": false,
+          "enum": [
+            "residential",
+            "mailing",
+            "foreign"
+          ],
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "line1",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "line1"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "city",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "postal_code",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "person",
+          "macro": "belongs_to",
+          "target": "Person",
+          "class_name": "Person",
+          "foreign_key": "person_id",
+          "optional": false
+        }
+      ],
+      "enums": {
+        "kind": {
+          "residential": 0,
+          "mailing": 1,
+          "foreign": 2
+        }
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "person"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "line1"
+          ],
+          "options": {
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "Appeal",
+      "table_name": "appeals",
+      "namespace": null,
+      "group": "Cases",
+      "file": "app/models/appeal.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "case_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "case",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "filed_on",
+          "type": "date",
+          "sql_type": "date",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "filed_on"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "status",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "default": "0",
+          "primary_key": false,
+          "enum": [
+            "filed",
+            "under_review",
+            "granted",
+            "denied"
+          ],
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "case",
+          "macro": "belongs_to",
+          "target": "Case",
+          "class_name": "Case",
+          "foreign_key": "case_id",
+          "optional": false
+        }
+      ],
+      "enums": {
+        "status": {
+          "filed": 0,
+          "under_review": 1,
+          "granted": 2,
+          "denied": 3
+        }
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "case"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "filed_on"
+          ],
+          "options": {
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "AsylumCase",
+      "table_name": "cases",
+      "namespace": null,
+      "group": "Cases",
+      "file": "app/models/asylum_case.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": {
+        "parent": "Case",
+        "base": "Case",
+        "column": "type",
+        "sti_name": "AsylumCase",
+        "children": [
+
+        ]
+      },
+      "attributes": [
+
+      ],
+      "associations": [
+
+      ],
+      "enums": {
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "filed_on"
+          ],
+          "options": {
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "BiometricCheck",
+      "table_name": "vetting_checks",
+      "namespace": null,
+      "group": "Vetting",
+      "file": "app/models/biometric_check.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": {
+        "parent": "VettingCheck",
+        "base": "VettingCheck",
+        "column": "type",
+        "sti_name": "BiometricCheck",
+        "children": [
+
+        ]
+      },
+      "attributes": [
+
+      ],
+      "associations": [
+        {
+          "name": "documents",
+          "macro": "has_many",
+          "target": "Document",
+          "class_name": "Document",
+          "as": "attachable",
+          "foreign_key": "attachable_id",
+          "dependent": "destroy",
+          "inverse_of": "attachable"
+        }
+      ],
+      "enums": {
+      },
+      "validations": [
+
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "Case",
+      "table_name": "cases",
+      "namespace": null,
+      "group": "Cases",
+      "file": "app/models/case.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": {
+        "parent": null,
+        "base": "Case",
+        "column": "type",
+        "sti_name": null,
+        "children": [
+          "AsylumCase",
+          "RefugeeCase"
+        ]
+      },
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "inheritance": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "person_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "person",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "assigned_officer_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": true,
+          "primary_key": false,
+          "foreign_key": "assigned_officer",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "receipt_number",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "receipt_number"
+              ],
+              "options": {
+              }
+            },
+            {
+              "kind": "uniqueness",
+              "attributes": [
+                "receipt_number"
+              ],
+              "options": {
+              }
+            },
+            {
+              "kind": "format",
+              "attributes": [
+                "receipt_number"
+              ],
+              "options": {
+                "with": "/\\A[A-Z]{3}\\d{10}\\z/"
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "status",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "default": "0",
+          "primary_key": false,
+          "enum": [
+            "intake",
+            "pending_review",
+            "decided",
+            "closed"
+          ],
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "filed_on",
+          "type": "date",
+          "sql_type": "date",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "unhcr_reference",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "vetting_checks_count",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "default": "0",
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "lock_version",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "default": "0",
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "person",
+          "macro": "belongs_to",
+          "target": "Person",
+          "class_name": "Person",
+          "foreign_key": "person_id",
+          "optional": false
+        },
+        {
+          "name": "assigned_officer",
+          "macro": "belongs_to",
+          "target": "User",
+          "class_name": "User",
+          "foreign_key": "assigned_officer_id",
+          "optional": true
+        },
+        {
+          "name": "vetting_checks",
+          "macro": "has_many",
+          "target": "VettingCheck",
+          "class_name": "VettingCheck",
+          "foreign_key": "case_id",
+          "dependent": "destroy",
+          "inverse_of": "case"
+        },
+        {
+          "name": "referrals",
+          "macro": "has_many",
+          "target": "Referral",
+          "class_name": "Referral",
+          "foreign_key": "case_id",
+          "dependent": "destroy",
+          "inverse_of": "case"
+        },
+        {
+          "name": "interviews",
+          "macro": "has_many",
+          "target": "Interview",
+          "class_name": "Interview",
+          "foreign_key": "case_id",
+          "dependent": "destroy",
+          "inverse_of": "case"
+        },
+        {
+          "name": "appeals",
+          "macro": "has_many",
+          "target": "Appeal",
+          "class_name": "Appeal",
+          "foreign_key": "case_id",
+          "dependent": "destroy",
+          "inverse_of": "case"
+        },
+        {
+          "name": "notes",
+          "macro": "has_many",
+          "target": "Note",
+          "class_name": "Note",
+          "as": "notable",
+          "foreign_key": "notable_id",
+          "dependent": "destroy",
+          "inverse_of": "notable"
+        },
+        {
+          "name": "documents",
+          "macro": "has_many",
+          "target": "Document",
+          "class_name": "Document",
+          "as": "attachable",
+          "foreign_key": "attachable_id",
+          "dependent": "destroy",
+          "inverse_of": "attachable"
+        },
+        {
+          "name": "tags",
+          "macro": "has_and_belongs_to_many",
+          "target": "Tag",
+          "class_name": "Tag",
+          "foreign_key": "case_id",
+          "join_table": "cases_tags"
+        }
+      ],
+      "enums": {
+        "status": {
+          "intake": 0,
+          "pending_review": 1,
+          "decided": 2,
+          "closed": 3
+        }
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "person"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "receipt_number"
+          ],
+          "options": {
+          }
+        },
+        {
+          "kind": "uniqueness",
+          "attributes": [
+            "receipt_number"
+          ],
+          "options": {
+          }
+        },
+        {
+          "kind": "format",
+          "attributes": [
+            "receipt_number"
+          ],
+          "options": {
+            "with": "/\\A[A-Z]{3}\\d{10}\\z/"
+          }
+        }
+      ],
+      "custom_validations": [
+        "decision_requires_officer"
+      ]
+    },
+    {
+      "name": "Document",
+      "table_name": "documents",
+      "namespace": null,
+      "group": "Records",
+      "file": "app/models/document.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "attachable_type",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "attachable",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "attachable_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "attachable",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "category",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "default": "0",
+          "primary_key": false,
+          "enum": [
+            "identity",
+            "evidence",
+            "correspondence"
+          ],
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "filename",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "filename"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "attachable",
+          "macro": "belongs_to",
+          "polymorphic": true,
+          "foreign_key": "attachable_id",
+          "foreign_type": "attachable_type",
+          "optional": false,
+          "targets": [
+            "BiometricCheck",
+            "Case",
+            "Person"
+          ]
+        }
+      ],
+      "enums": {
+        "category": {
+          "identity": 0,
+          "evidence": 1,
+          "correspondence": 2
+        }
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "attachable"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "filename"
+          ],
+          "options": {
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "Interview",
+      "table_name": "interviews",
+      "namespace": null,
+      "group": "Cases",
+      "file": "app/models/interview.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "case_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "case",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "interviewer_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "interviewer",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "scheduled_at",
+          "type": "datetime",
+          "sql_type": "datetime",
+          "null": false,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "scheduled_at"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "case",
+          "macro": "belongs_to",
+          "target": "Case",
+          "class_name": "Case",
+          "foreign_key": "case_id",
+          "optional": false
+        },
+        {
+          "name": "interviewer",
+          "macro": "belongs_to",
+          "target": "User",
+          "class_name": "User",
+          "foreign_key": "interviewer_id",
+          "optional": false
+        }
+      ],
+      "enums": {
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "case"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "interviewer"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "scheduled_at"
+          ],
+          "options": {
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "NameCheck",
+      "table_name": "vetting_checks",
+      "namespace": null,
+      "group": "Vetting",
+      "file": "app/models/name_check.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": {
+        "parent": "VettingCheck",
+        "base": "VettingCheck",
+        "column": "type",
+        "sti_name": "NameCheck",
+        "children": [
+
+        ]
+      },
+      "attributes": [
+
+      ],
+      "associations": [
+
+      ],
+      "enums": {
+      },
+      "validations": [
+        {
+          "kind": "inclusion",
+          "attributes": [
+            "result_code"
+          ],
+          "options": {
+            "in": [
+              "NR",
+              "PH",
+              "CH"
+            ],
+            "allow_nil": true
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "Note",
+      "table_name": "notes",
+      "namespace": null,
+      "group": "Records",
+      "file": "app/models/note.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "notable_type",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "notable",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "notable_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "notable",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "author_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "author",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "body",
+          "type": "text",
+          "sql_type": "TEXT",
+          "null": false,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "body"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "notable",
+          "macro": "belongs_to",
+          "polymorphic": true,
+          "foreign_key": "notable_id",
+          "foreign_type": "notable_type",
+          "optional": false,
+          "targets": [
+            "Case",
+            "Person"
+          ]
+        },
+        {
+          "name": "author",
+          "macro": "belongs_to",
+          "target": "User",
+          "class_name": "User",
+          "foreign_key": "author_id",
+          "optional": false
+        }
+      ],
+      "enums": {
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "notable"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "author"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "body"
+          ],
+          "options": {
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "Person",
+      "table_name": "people",
+      "namespace": null,
+      "group": "People",
+      "file": "app/models/person.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "first_name",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "length",
+              "attributes": [
+                "first_name"
+              ],
+              "options": {
+                "maximum": 100
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "last_name"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "date_of_birth",
+          "type": "date",
+          "sql_type": "date",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "country_of_birth",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "preferred_language",
+          "type": "string",
+          "virtual": true,
+          "validations": [
+
+          ],
+          "technical": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "cases",
+          "macro": "has_many",
+          "target": "Case",
+          "class_name": "Case",
+          "foreign_key": "person_id",
+          "dependent": "restrict_with_error",
+          "inverse_of": "person"
+        },
+        {
+          "name": "addresses",
+          "macro": "has_many",
+          "target": "Address",
+          "class_name": "Address",
+          "foreign_key": "person_id",
+          "dependent": "destroy",
+          "inverse_of": "person"
+        },
+        {
+          "name": "relationships",
+          "macro": "has_many",
+          "target": "Relationship",
+          "class_name": "Relationship",
+          "foreign_key": "person_id",
+          "dependent": "destroy",
+          "inverse_of": "person"
+        },
+        {
+          "name": "relatives",
+          "macro": "has_many",
+          "target": "Person",
+          "class_name": "Person",
+          "through": "relationships",
+          "source": "relative"
+        },
+        {
+          "name": "notes",
+          "macro": "has_many",
+          "target": "Note",
+          "class_name": "Note",
+          "as": "notable",
+          "foreign_key": "notable_id",
+          "dependent": "destroy",
+          "inverse_of": "notable"
+        },
+        {
+          "name": "documents",
+          "macro": "has_many",
+          "target": "Document",
+          "class_name": "Document",
+          "as": "attachable",
+          "foreign_key": "attachable_id",
+          "dependent": "destroy",
+          "inverse_of": "attachable"
+        }
+      ],
+      "enums": {
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "last_name"
+          ],
+          "options": {
+          }
+        },
+        {
+          "kind": "length",
+          "attributes": [
+            "first_name"
+          ],
+          "options": {
+            "maximum": 100
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "Referral",
+      "table_name": "referrals",
+      "namespace": null,
+      "group": "Referrals",
+      "file": "app/models/referral.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "case_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "case",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "referred_by_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "referred_by",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "status",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "default": "0",
+          "primary_key": false,
+          "enum": [
+            "draft",
+            "submitted",
+            "accepted",
+            "returned"
+          ],
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "reason",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "enum": [
+            "fraud_concern",
+            "national_security",
+            "medical",
+            "other"
+          ],
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "reason"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "summary",
+          "type": "text",
+          "sql_type": "TEXT",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "case",
+          "macro": "belongs_to",
+          "target": "Case",
+          "class_name": "Case",
+          "foreign_key": "case_id",
+          "optional": false
+        },
+        {
+          "name": "referred_by",
+          "macro": "belongs_to",
+          "target": "User",
+          "class_name": "User",
+          "foreign_key": "referred_by_id",
+          "optional": false
+        },
+        {
+          "name": "referral_events",
+          "macro": "has_many",
+          "target": "ReferralEvent",
+          "class_name": "ReferralEvent",
+          "foreign_key": "referral_id",
+          "dependent": "destroy",
+          "inverse_of": "referral",
+          "scoped": true
+        }
+      ],
+      "enums": {
+        "status": {
+          "draft": 0,
+          "submitted": 1,
+          "accepted": 2,
+          "returned": 3
+        },
+        "reason": {
+          "fraud_concern": 0,
+          "national_security": 1,
+          "medical": 2,
+          "other": 3
+        }
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "case"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "referred_by"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "reason"
+          ],
+          "options": {
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "ReferralEvent",
+      "table_name": "referral_events",
+      "namespace": null,
+      "group": "Referrals",
+      "file": "app/models/referral_event.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "referral_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "referral",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "actor_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": true,
+          "primary_key": false,
+          "foreign_key": "actor",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "event",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "event"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "payload",
+          "type": "json",
+          "sql_type": "json",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "referral",
+          "macro": "belongs_to",
+          "target": "Referral",
+          "class_name": "Referral",
+          "foreign_key": "referral_id",
+          "optional": false
+        },
+        {
+          "name": "actor",
+          "macro": "belongs_to",
+          "target": "User",
+          "class_name": "User",
+          "foreign_key": "actor_id",
+          "optional": true
+        }
+      ],
+      "enums": {
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "referral"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "event"
+          ],
+          "options": {
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "RefugeeCase",
+      "table_name": "cases",
+      "namespace": null,
+      "group": "Cases",
+      "file": "app/models/refugee_case.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": {
+        "parent": "Case",
+        "base": "Case",
+        "column": "type",
+        "sti_name": "RefugeeCase",
+        "children": [
+
+        ]
+      },
+      "attributes": [
+
+      ],
+      "associations": [
+
+      ],
+      "enums": {
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "unhcr_reference"
+          ],
+          "options": {
+          },
+          "conditional": true
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "Relationship",
+      "table_name": "relationships",
+      "namespace": null,
+      "group": "People",
+      "file": "app/models/relationship.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "person_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "person",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "relative_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "relative",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "relation",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "default": "0",
+          "primary_key": false,
+          "enum": [
+            "spouse",
+            "child",
+            "guardian",
+            "sibling"
+          ],
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "person",
+          "macro": "belongs_to",
+          "target": "Person",
+          "class_name": "Person",
+          "foreign_key": "person_id",
+          "optional": false
+        },
+        {
+          "name": "relative",
+          "macro": "belongs_to",
+          "target": "Person",
+          "class_name": "Person",
+          "foreign_key": "relative_id",
+          "optional": false
+        }
+      ],
+      "enums": {
+        "relation": {
+          "spouse": 0,
+          "child": 1,
+          "guardian": 2,
+          "sibling": 3
+        }
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "person"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "relative"
+          ],
+          "options": {
+            "message": "required"
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "Tag",
+      "table_name": "tags",
+      "namespace": null,
+      "group": "Cases",
+      "file": "app/models/tag.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "name"
+              ],
+              "options": {
+              }
+            },
+            {
+              "kind": "uniqueness",
+              "attributes": [
+                "name"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "cases",
+          "macro": "has_and_belongs_to_many",
+          "target": "Case",
+          "class_name": "Case",
+          "foreign_key": "tag_id",
+          "join_table": "cases_tags"
+        }
+      ],
+      "enums": {
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "name"
+          ],
+          "options": {
+          }
+        },
+        {
+          "kind": "uniqueness",
+          "attributes": [
+            "name"
+          ],
+          "options": {
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "User",
+      "table_name": "users",
+      "namespace": null,
+      "group": "Staff",
+      "file": "app/models/user.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": null,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "name",
+                "email"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "name",
+                "email"
+              ],
+              "options": {
+              }
+            },
+            {
+              "kind": "uniqueness",
+              "attributes": [
+                "email"
+              ],
+              "options": {
+              }
+            },
+            {
+              "kind": "format",
+              "attributes": [
+                "email"
+              ],
+              "options": {
+                "with": "/@/"
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "default": "officer",
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "assigned_cases",
+          "macro": "has_many",
+          "target": "Case",
+          "class_name": "Case",
+          "foreign_key": "assigned_officer_id",
+          "inverse_of": "assigned_officer"
+        },
+        {
+          "name": "referrals_made",
+          "macro": "has_many",
+          "target": "Referral",
+          "class_name": "Referral",
+          "foreign_key": "referred_by_id",
+          "inverse_of": "referred_by"
+        },
+        {
+          "name": "interviews",
+          "macro": "has_many",
+          "target": "Interview",
+          "class_name": "Interview",
+          "foreign_key": "interviewer_id",
+          "inverse_of": "interviewer"
+        }
+      ],
+      "enums": {
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "name",
+            "email"
+          ],
+          "options": {
+          }
+        },
+        {
+          "kind": "uniqueness",
+          "attributes": [
+            "email"
+          ],
+          "options": {
+          }
+        },
+        {
+          "kind": "format",
+          "attributes": [
+            "email"
+          ],
+          "options": {
+            "with": "/@/"
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    },
+    {
+      "name": "VettingCheck",
+      "table_name": "vetting_checks",
+      "namespace": null,
+      "group": "Vetting",
+      "file": "app/models/vetting_check.rb",
+      "primary_key": "id",
+      "description": null,
+      "sti": {
+        "parent": null,
+        "base": "VettingCheck",
+        "column": "type",
+        "sti_name": null,
+        "children": [
+          "BiometricCheck",
+          "NameCheck"
+        ]
+      },
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": true,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": false,
+          "primary_key": false,
+          "inheritance": true,
+          "technical": true,
+          "validations": [
+            {
+              "kind": "presence",
+              "attributes": [
+                "type"
+              ],
+              "options": {
+              }
+            }
+          ],
+          "virtual": false
+        },
+        {
+          "name": "case_id",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "primary_key": false,
+          "foreign_key": "case",
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "status",
+          "type": "integer",
+          "sql_type": "INTEGER",
+          "null": false,
+          "default": "0",
+          "primary_key": false,
+          "enum": [
+            "queued",
+            "running",
+            "cleared",
+            "hit",
+            "failed"
+          ],
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "result_code",
+          "type": "string",
+          "sql_type": "varchar",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "completed_at",
+          "type": "datetime",
+          "sql_type": "datetime",
+          "null": true,
+          "primary_key": false,
+          "technical": false,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "sql_type": "datetime(6)",
+          "null": false,
+          "primary_key": false,
+          "technical": true,
+          "validations": [
+
+          ],
+          "virtual": false
+        }
+      ],
+      "associations": [
+        {
+          "name": "case",
+          "macro": "belongs_to",
+          "target": "Case",
+          "class_name": "Case",
+          "foreign_key": "case_id",
+          "optional": false,
+          "counter_cache": true
+        }
+      ],
+      "enums": {
+        "status": {
+          "queued": 0,
+          "running": 1,
+          "cleared": 2,
+          "hit": 3,
+          "failed": 4
+        }
+      },
+      "validations": [
+        {
+          "kind": "presence",
+          "attributes": [
+            "case"
+          ],
+          "options": {
+            "message": "required"
+          }
+        },
+        {
+          "kind": "presence",
+          "attributes": [
+            "type"
+          ],
+          "options": {
+          }
+        }
+      ],
+      "custom_validations": [
+
+      ]
+    }
+  ],
+  "load_errors": [
+
+  ],
+  "fingerprint": "719e806561ddb3da"
+}

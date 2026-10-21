@@ -60,6 +60,13 @@ ActiveRecord::Schema.define(version: 2026_10_20_000001) do
     t.timestamps
   end
 
+  create_table :appeals do |t|
+    t.references :case, null: false
+    t.date :filed_on
+    t.integer :status, null: false, default: 0
+    t.timestamps
+  end
+
   create_table :vetting_checks do |t|
     t.string :type, null: false
     t.references :case, null: false
