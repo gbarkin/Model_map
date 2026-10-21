@@ -180,12 +180,12 @@ function MapApp({ boot }) {
   );
 
   const estimatedSize = useCallback(
-    (m) => {
+    (m, asPlain = plain) => {
       const isChild = !!m.sti?.parent;
-      const rows = isChild ? Math.max(1, stiExtras(m).length) : Math.max(1, visibleAttributes(m, plain).length);
+      const rows = isChild ? Math.max(1, stiExtras(m).length) : Math.max(1, visibleAttributes(m, asPlain).length);
       const isOpen = expanded.has(m.name);
       const shown = isOpen ? rows : Math.min(rows, COLLAPSED_ROWS);
-      const desc = plain && !!descriptionOf(m, storeRef.current);
+      const desc = !!descriptionOf(m, storeRef.current);
       return { width: NODE_WIDTH, height: estimateHeight(shown, { description: desc, more: rows > COLLAPSED_ROWS }) };
     },
     [plain, expanded]
@@ -197,7 +197,12 @@ function MapApp({ boot }) {
   const runAutoLayout = useCallback(
     async (models, { save = true, useMeasured = true } = {}) => {
       const sizeMap = {};
-      for (const m of models) sizeMap[m.name] = useMeasured ? sizes[m.name] || estimatedSize(m) : estimatedSize(m);
+      // Size for the taller of the two views so switching views never overlaps cards.
+      for (const m of models) {
+        const technical = estimatedSize(m, false);
+        const measured = useMeasured ? sizes[m.name] : null;
+        sizeMap[m.name] = { width: NODE_WIDTH, height: Math.max(technical.height, measured?.height || 0) };
+      }
       const positions = await autoLayout({
         models,
         edges: buildEdges(schemaRef.current.models),
@@ -420,7 +425,7 @@ function MapApp({ boot }) {
           source: e.source,
           target: e.target,
           type: "floating",
-          zIndex: touches ? 15 : 5,
+          zIndex: touches ? 8 : 5, // below cards (10+) so lines never cross over a card
           data: {
             ...e,
             label: edgeLabel(e, plain, byName),
@@ -622,7 +627,17 @@ function MapApp({ boot }) {
     setSelected(step.focus || null);
     setExpanded(new Set(step.expanded || []));
     if (typeof step.plain === "boolean") setPlainState(step.plain);
-    if (step.center) {
+    if (step.focus) {
+      // Follow the model, not the saved coordinates, so a tour survives "Arrange".
+      setTimeout(() => {
+        const node = flow.getInternalNode(step.focus);
+        if (!node) return;
+        const p = node.internals.positionAbsolute;
+        const w = node.measured?.width || NODE_WIDTH;
+        const h = node.measured?.height || 200;
+        flow.setCenter(p.x + w / 2, p.y + h / 2, { zoom: step.center?.zoom || 1, duration: 800 });
+      }, 120);
+    } else if (step.center) {
       setTimeout(() => flow.setCenter(step.center.x, step.center.y, { zoom: step.center.zoom, duration: 800 }), 60);
     } else if (step.viewport) {
       setTimeout(() => flow.setViewport(step.viewport, { duration: 800 }), 60);

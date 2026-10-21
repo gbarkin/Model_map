@@ -77,7 +77,7 @@ function ModelNodeImpl({ data }) {
           ) : null}
         </header>
 
-        {plain && description ? <p className="mm-desc">{description}</p> : null}
+        {description ? <p className="mm-desc">{description}</p> : null}
 
         {isChild ? (
           <ul className="mm-rows">

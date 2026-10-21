@@ -41,7 +41,7 @@ module ModelMap
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>#{ERB::Util.html_escape(@config.title)} · Model map</title>
+          <title>#{ERB::Util.html_escape(@config.title)} model map</title>
           <style>#{css}</style>
           <script id="model-map-bootstrap" type="application/json">#{ERB::Util.json_escape(JSON.generate(bootstrap))}</script>
         </head>
